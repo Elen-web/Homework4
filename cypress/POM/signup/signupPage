@@ -1,0 +1,34 @@
+import { signupPageLocators } from './signupPageLocators';
+
+class SignupPage {
+    elements = {
+        continueWithEmailButton: () => cy.get(signupPageLocators.continueWithEmailButton),
+        nameInput: () => cy.get(signupPageLocators.nameInput),
+        usernameInput: () => cy.get(signupPageLocators.usernameInput),
+        emailInput: () => cy.get(signupPageLocators.emailInput),
+        passwordInput: () => cy.get(signupPageLocators.passwordInput),
+        agreeToTermsCheckbox: () => cy.get(signupPageLocators.agreeToTermsCheckbox),
+        createAccountButton: () => cy.get(signupPageLocators.createAccountButton)
+    };
+
+    navigateToSignup() {
+        cy.visit('https://dribbble.com/signup/new');
+        this.elements.continueWithEmailButton()
+            .should('be.visible')
+            .first().click(); // Click only the first button
+    }
+
+    fillSignupForm(name, username, email, password) {
+        this.elements.nameInput().type(name);
+        this.elements.usernameInput().type(username);
+        this.elements.emailInput().type(email);
+        this.elements.passwordInput().type(password);
+    }
+
+    agreeToTermsAndSignup() {
+        this.elements.agreeToTermsCheckbox().check();
+        this.elements.createAccountButton().click();
+    }
+}
+
+export const signupPage = new SignupPage();
